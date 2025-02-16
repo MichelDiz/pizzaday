@@ -1,0 +1,67 @@
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+*.swp
+*.swo
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Go ###
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.o
+*.a
+
+# Debug
+trace.out
+profile.out
+bench.out
+pprof/
+
+# Go tools
+_static/
+tmp/
+*.cache
+*.tmp
+
+### Vite ###
+node_modules/
+dist/
+.vite/
+.vitepress/cache/
+.eslintcache
+*.log
+*.lock
+*.DS_Store
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+*.swp
+*.swo
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+
+### Outros ###
+*.log
+*.pid
+*.seed
+*.swp
+*.swo
+*.vim
