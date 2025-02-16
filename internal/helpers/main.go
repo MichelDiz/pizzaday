@@ -11,6 +11,18 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var verbose bool
+
+func init() {
+	verbose = os.Getenv("VERBOSE") == "true"
+}
+
+func VerboseLog(format string, a ...interface{}) {
+	if verbose {
+		log.Printf(format, a...)
+	}
+}
+
 type Adapter interface {
 	GetURL() string
 	ProcessMessage(messageType int, message []byte)
