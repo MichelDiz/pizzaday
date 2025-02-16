@@ -21,6 +21,7 @@ yarn-error.log*
 *.out
 *.o
 *.a
+**debug*
 
 # Debug
 trace.out
