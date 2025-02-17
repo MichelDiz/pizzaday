@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -68,4 +69,20 @@ func Connect(adapter Adapter, verbose bool) {
 			return
 		}
 	}
+}
+
+func ConvertBtcToUsd(btcAmt string, LastTradePrice float64) string {
+	btcAmtFloat, err := strconv.ParseFloat(btcAmt, 64)
+	if err != nil {
+		return "N/A"
+	}
+	usdValue := btcAmtFloat * LastTradePrice
+	return fmt.Sprintf("U$ %.2f", usdValue)
+}
+
+func CalculateKD(kills, deaths float64) float64 {
+	if deaths == 0 {
+		return 0
+	}
+	return kills / deaths
 }
