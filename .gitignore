@@ -5,10 +5,11 @@
 Thumbs.db
 *.swp
 *.swo
-node_modules/
+**node_modules*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.env
 
 ### Go ###
 # Binaries
@@ -36,7 +37,8 @@ tmp/
 *.tmp
 
 ### Vite ###
-dist/
+**dist
+**dist-ssr
 .vite/
 .vitepress/cache/
 .eslintcache

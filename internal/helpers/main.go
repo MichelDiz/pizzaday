@@ -6,17 +6,28 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/websocket"
 )
 
-type Adapter interface {
-	GetURL() string
-	ProcessMessage(messageType int, message []byte)
+var verbose bool
+
+func init() {
+	verbose = os.Getenv("VERBOSE") == "true"
 }
 
-func Connect(adapter Adapter) {
+func VerboseLog() bool {
+	return verbose
+}
+
+type Adapter interface {
+	GetURL() string
+	ProcessMessage(messageType int, message []byte, verbose bool)
+}
+
+func Connect(adapter Adapter, verbose bool) {
 	u, err := url.Parse(adapter.GetURL())
 	if err != nil {
 		log.Fatal("Invalid URL:", err)
@@ -45,7 +56,7 @@ func Connect(adapter Adapter) {
 				log.Println("Read error:", err)
 				return
 			}
-			adapter.ProcessMessage(messageType, message)
+			adapter.ProcessMessage(messageType, message, verbose)
 		}
 	}()
 
@@ -58,4 +69,20 @@ func Connect(adapter Adapter) {
 			return
 		}
 	}
+}
+
+func ConvertBtcToUsd(btcAmt string, LastTradePrice float64) string {
+	btcAmtFloat, err := strconv.ParseFloat(btcAmt, 64)
+	if err != nil {
+		return "N/A"
+	}
+	usdValue := btcAmtFloat * LastTradePrice
+	return fmt.Sprintf("U$ %.2f", usdValue)
+}
+
+func CalculateKD(kills, deaths float64) float64 {
+	if deaths == 0 {
+		return 0
+	}
+	return kills / deaths
 }
