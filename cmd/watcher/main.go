@@ -3,14 +3,15 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/MichelDiz/pizzaday/internal/adapters"
 	"github.com/MichelDiz/pizzaday/internal/helpers"
+	"github.com/MichelDiz/pizzaday/internal/websocket"
 )
 
 func main() {
-
 	verbose := helpers.VerboseLog()
 
 	// Flags to enable specific streams
@@ -62,11 +63,19 @@ func main() {
 		return
 	}
 
-	adapter := adapters.BinanceAdapter{
+	adapter := &adapters.BinanceAdapter{
 		Symbol:  symbol,
 		Streams: streams,
 	}
 
-	// Start WebSocket connection with selected streams
-	helpers.Connect(&adapter, verbose)
+	// Start WebSocket server for broadcasting updates
+	wsServer := websocket.NewWebSocketServer(adapter)
+
+	go func() {
+		log.Println("Starting WebSocket server...")
+		wsServer.Start()
+	}()
+
+	// Start Binance WebSocket connection
+	helpers.Connect(adapter, verbose)
 }
