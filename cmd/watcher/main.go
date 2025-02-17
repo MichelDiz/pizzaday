@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+
+	verbose := helpers.VerboseLog()
+
 	// Flags to enable specific streams
 	enableTrade := flag.Bool("trade", false, "Enable trade stream")
 	enableOrderBook := flag.Bool("orderbook", false, "Enable book ticker stream")
@@ -65,5 +68,5 @@ func main() {
 	}
 
 	// Start WebSocket connection with selected streams
-	helpers.Connect(adapter)
+	helpers.Connect(&adapter, verbose)
 }

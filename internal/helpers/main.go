@@ -17,18 +17,16 @@ func init() {
 	verbose = os.Getenv("VERBOSE") == "true"
 }
 
-func VerboseLog(format string, a ...interface{}) {
-	if verbose {
-		log.Printf(format, a...)
-	}
+func VerboseLog() bool {
+	return verbose
 }
 
 type Adapter interface {
 	GetURL() string
-	ProcessMessage(messageType int, message []byte)
+	ProcessMessage(messageType int, message []byte, verbose bool)
 }
 
-func Connect(adapter Adapter) {
+func Connect(adapter Adapter, verbose bool) {
 	u, err := url.Parse(adapter.GetURL())
 	if err != nil {
 		log.Fatal("Invalid URL:", err)
@@ -57,7 +55,7 @@ func Connect(adapter Adapter) {
 				log.Println("Read error:", err)
 				return
 			}
-			adapter.ProcessMessage(messageType, message)
+			adapter.ProcessMessage(messageType, message, verbose)
 		}
 	}()
 
